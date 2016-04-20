@@ -22,6 +22,6 @@
 @property (nonatomic, copy) NSArray *adList;
 @property (nonatomic, assign, readonly) NSInteger currentPage;
 @property (nonatomic, assign) NSTimeInterval animationDuration;//自动滚动动画时间，默认2s
-
+@property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic , copy) void (^tapActionBlock)(SDAdScrollView *adScrollView);
 @end

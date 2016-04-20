@@ -12,7 +12,6 @@
 
 @interface SDAdScrollView ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, strong) UIImageView *currentImageView;
@@ -151,7 +150,7 @@
         CGRect rect = CGRectMake(40, CGRectGetHeight(self.bounds)-20, CGRectGetWidth(self.bounds)-40*2, 10);
         _pageControl = [[UIPageControl alloc]initWithFrame:rect];
         _pageControl.hidesForSinglePage = YES;
-        _pageControl.pageIndicatorTintColor = [UIColor yellowColor];
+        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
         _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
         [self addSubview:_pageControl];
     }
