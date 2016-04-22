@@ -12,7 +12,6 @@
 
 @interface SDAdScrollView ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, strong) UIImageView *currentImageView;
 @property (nonatomic, strong) UIImageView *leftImageView;
@@ -34,9 +33,6 @@
         
         _rightImageView = [[UIImageView alloc]init];
         [self.scrollView addSubview:_rightImageView];
-                
-        _timer = [NSTimer scheduledTimerWithTimeInterval:_animationDuration target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
-        [_timer pauseTimer];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onGesture:)];
         [self.scrollView addGestureRecognizer:tapGesture];
@@ -77,6 +73,12 @@
     self.pageControl.currentPage = 0;
     _currentPage = 0;
     
+    if (![_timer isValid]) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:_animationDuration target:self selector:@selector(onTimer:) userInfo:nil repeats:YES];
+        [_timer pauseTimer];
+    }
+    
+    
     if (_adList.count <= 1) {
         self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), 0);
     }else{
@@ -95,13 +97,11 @@
     
     [self formatImageView:_currentImageView imageData:self.adList[index]];
     
-    if (self.adList.count > 1) {
-        index = _currentPage-1<0?self.adList.count-1:_currentPage-1;
-        [self formatImageView:_leftImageView imageData:self.adList[index]];
-        
-        index = _currentPage+1>=self.adList.count?0:_currentPage+1;
-        [self formatImageView:_rightImageView imageData:self.adList[index]];
-    }
+    index = _currentPage-1<0?self.adList.count-1:_currentPage-1;
+    [self formatImageView:_leftImageView imageData:self.adList[index]];
+    
+    index = _currentPage+1>=self.adList.count?0:_currentPage+1;
+    [self formatImageView:_rightImageView imageData:self.adList[index]];
     
     self.scrollView.contentOffset = CGPointMake(CGRectGetWidth(self.bounds), 0);
 }
