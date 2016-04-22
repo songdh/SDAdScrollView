@@ -24,5 +24,7 @@
 @property (nonatomic, assign) NSTimeInterval animationDuration;//自动滚动动画时间，默认2s
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) UIImage *placeHolderImage;
+@property (nonatomic, assign) UIEdgeInsets scrollViewEdge;
 @property (nonatomic , copy) void (^tapActionBlock)(SDAdScrollView *adScrollView);
 @end

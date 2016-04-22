@@ -43,17 +43,28 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    _leftImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    _leftImageView.frame = CGRectMake(0, 0, CGRectGetWidth(self.scrollView.bounds), CGRectGetHeight(self.scrollView.bounds));
     
     _currentImageView.frame = CGRectOffset(_leftImageView.frame, CGRectGetWidth(_leftImageView.frame), 0);
     
     _rightImageView.frame = CGRectOffset(_currentImageView.frame, CGRectGetWidth(_currentImageView.frame), 0);
 }
 
+-(void)setScrollViewEdge:(UIEdgeInsets)scrollViewEdge
+{
+    _scrollViewEdge = scrollViewEdge;
+    CGRect rect = self.scrollView.frame;
+    
+    self.scrollView.frame = CGRectMake(CGRectGetMinX(rect)+_scrollViewEdge.left,
+                                       CGRectGetMinY(rect)+_scrollViewEdge.top,
+                                       CGRectGetWidth(rect)-_scrollViewEdge.left-_scrollViewEdge.right,
+                                       CGRectGetHeight(rect)-_scrollViewEdge.top-_scrollViewEdge.bottom);
+}
 #pragma mark - Action
 
 -(void)onTimer:(NSTimer*)timer
 {
+    NSLog(@"adScrollView onTimer");
     [self.scrollView setContentOffset:CGPointMake(CGRectGetWidth(self.bounds)*2, 0) animated:YES];
 }
 
@@ -115,7 +126,7 @@
         NSString *imageName = (NSString*)data;
         if ([imageName hasPrefix:@"http"]) {
             //网络图片
-            [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:_placeHolderImage];
         }else{
             //本地图片
             imageView.image = [UIImage imageNamed:imageName];
